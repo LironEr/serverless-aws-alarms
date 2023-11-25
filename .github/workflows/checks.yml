@@ -36,11 +36,11 @@ jobs:
 
       - name: Lint
         if: ${{ matrix.node-version == '18.x' }} # run this step only one time
-        run: yarn lint-packages
+        run: yarn lint
 
       - name: Type check
         if: ${{ matrix.node-version == '18.x' }} # run this step only one time
-        run: yarn type-check-packages
+        run: yarn type-check
 
       - name: Build
         run: yarn build
