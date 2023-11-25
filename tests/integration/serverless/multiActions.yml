@@ -1,0 +1,83 @@
+service: ${env:SERVICE_NAME, 'test-service'}
+
+frameworkVersion: '3'
+configValidationMode: error
+
+plugins:
+  - serverless-localstack
+  - ../../../dist/index.js
+
+package:
+  patterns:
+    - '!**/*'
+    - handlers.js
+
+custom:
+  localstack:
+    stages:
+      - local
+    host: http://localhost
+    edgePort: 4566
+    autostart: true
+    docker:
+      sudo: false
+  awsAlarms:
+    actions:
+      default:
+        ok: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-ok'
+        alarm: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-alarm'
+        insufficientData: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-insufficientData'
+      low:
+        ok: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-low-alerts-ok'
+        alarm: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-low-alerts-alarm'
+      critical:
+        ok: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-critical-alerts-ok'
+        alarm: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-critical-alerts-alarm'
+    definitions:
+      lambdaErrors:
+        enabled: true
+        threshold: 1
+        alarmActions:
+          - default
+          - low
+      lambdaTimeout:
+        enabled: true
+        threshold: 1
+        okActions:
+          - low
+        alarmActions:
+          - low
+        insufficientDataActions: []
+      criticalLambdaErrors:
+        namespace: 'AWS/Lambda'
+        metric: 'Errors'
+        comparisonOperator: 'GreaterThanOrEqualToThreshold'
+        statistic: 'Sum'
+        threshold: 5
+        period: 300
+        evaluationPeriods: 1
+        datapointsToAlarm: 1
+        okActions:
+          - critical
+        alarmActions:
+          - critical
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs18.x
+  memorySize: 512
+  timeout: 30
+  deploymentMethod: direct
+
+functions:
+  SomeFunc:
+    name: ${self:service}-some-func
+    handler: handlers.someFunc
+
+  some_func2:
+    name: ${self:service}-some-func2
+    handler: handlers.someFunc
+    alarms:
+      criticalLambdaErrors:
+        enabled: false

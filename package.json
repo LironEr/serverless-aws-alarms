@@ -1,0 +1,56 @@
+{
+  "name": "serverless-aws-alarms",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "repository": "https://github.com/LironEr/serverless-aws-alarms.git",
+  "author": "LironEr <lironerm@gmail.com>",
+  "funding": "https://github.com/sponsors/LironEr",
+  "license": "MIT",
+  "description": "Serverless framework plugin that easily creates CloudWatch alarms for lambdas",
+  "keywords": [
+    "serverless",
+    "serverless framework",
+    "serverless plugin",
+    "aws"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "mock-services:start": "docker compose -f tests/docker-compose.yml up -d --remove-orphans",
+    "mock-services:stop": "docker compose -f tests/docker-compose.yml down",
+    "test": "jest",
+    "test:integration": "jest --coverage false --testMatch \"<rootDir>/tests/integration/**/*.test.ts\"",
+    "build": "rimraf dist/ && tsc -p tsconfig.release.json",
+    "build:watch": "yarn build --watch",
+    "lint": "yarn eslint --config .eslintrc.json --max-warnings=0 \"src/**/*.ts\"",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "deepmerge": "^4.3.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.441.0",
+    "@types/jest": "^29.5.1",
+    "@types/node": "^18",
+    "@types/serverless": "^3.12.17",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.2",
+    "rimraf": "^5.0.5",
+    "serverless": "^3.36.0",
+    "serverless-localstack": "^1.1.2",
+    "tree-kill": "^1.2.2",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "serverless": "^3"
+  }
+}

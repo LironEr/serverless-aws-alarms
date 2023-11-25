@@ -1,0 +1,40 @@
+service: ${env:SERVICE_NAME, 'test-service'}
+
+frameworkVersion: '3'
+configValidationMode: error
+
+plugins:
+  - serverless-localstack
+  - ../../../dist/index.js
+
+package:
+  patterns:
+    - '!**/*'
+    - handlers.js
+
+custom:
+  localstack:
+    stages:
+      - local
+    host: http://localhost
+    edgePort: 4566
+    autostart: true
+    docker:
+      sudo: false
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs18.x
+  memorySize: 512
+  timeout: 30
+  deploymentMethod: direct
+
+functions:
+  SomeFunc:
+    name: ${self:service}-some-func
+    handler: handlers.someFunc
+
+  some_func2:
+    name: ${self:service}-some-func2
+    handler: handlers.someFunc
