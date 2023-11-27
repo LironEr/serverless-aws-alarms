@@ -1,0 +1,52 @@
+service: ${env:SERVICE_NAME, 'test-service'}
+
+frameworkVersion: '3'
+configValidationMode: error
+
+plugins:
+  - serverless-localstack
+  - ../../../dist/index.js
+
+package:
+  patterns:
+    - '!**/*'
+    - handlers.js
+
+custom:
+  localstack:
+    stages:
+      - local
+    host: http://localhost
+    edgePort: 4566
+    autostart: true
+    docker:
+      sudo: false
+  awsAlarms:
+    actions:
+      default:
+        ok: !Ref MyTeamAlertsTopic
+        alarm: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-alarm'
+        insufficientData: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-insufficientData'
+    definitions:
+      lambdaErrors:
+        enabled: true
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs18.x
+  memorySize: 512
+  timeout: 30
+  deploymentMethod: direct
+
+functions:
+  SomeFunc:
+    name: ${self:service}-some-func
+    handler: handlers.someFunc
+
+resources:
+  Resources:
+    MyTeamAlertsTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${env:SERVICE_NAME, 'test-service'}-my-team-alerts-ok

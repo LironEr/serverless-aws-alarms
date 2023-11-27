@@ -1,0 +1,56 @@
+name: checks
+
+on:
+  push:
+    branches: [main, release/*, next]
+  pull_request:
+    types: [synchronize, opened, reopened]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Test
+        run: yarn test --coverage
+
+      - uses: codecov/codecov-action@v3
+        if: ${{ matrix.node-version == '18.x' }} # run this step only one time
+        with:
+          files: ./coverage/coverage-final.json
+
+      - name: Lint
+        if: ${{ matrix.node-version == '18.x' }} # run this step only one time
+        run: yarn lint
+
+      - name: Type check
+        if: ${{ matrix.node-version == '18.x' }} # run this step only one time
+        run: yarn type-check
+
+      - name: Build
+        run: yarn build
+
+      - name: Start mock services
+        run: yarn mock-services:start
+
+      - name: Integration tests
+        run: yarn test:integration
+
+      - name: Stop mock services
+        if: always()
+        run: yarn mock-services:stop
