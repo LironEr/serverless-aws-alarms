@@ -1,7 +1,7 @@
 {
   "name": "serverless-aws-alarms",
   "version": "0.1.0",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/LironEr/serverless-aws-alarms.git",
   "author": "LironEr <lironerm@gmail.com>",
   "funding": "https://github.com/sponsors/LironEr",
@@ -21,7 +21,7 @@
     "mock-services:stop": "docker compose -f tests/docker-compose.yml down",
     "test": "jest",
     "test:integration": "jest --coverage false --testMatch \"<rootDir>/tests/integration/**/*.test.ts\"",
-    "build": "rimraf dist/ && tsc -p tsconfig.release.json",
+    "build": "rimraf lib/ && tsc -p tsconfig.release.json",
     "build:watch": "yarn build --watch",
     "lint": "yarn eslint --config .eslintrc.json --max-warnings=0 \"src/**/*.ts\"",
     "type-check": "tsc --noEmit"
@@ -52,5 +52,9 @@
   },
   "peerDependencies": {
     "serverless": "^3"
-  }
+  },
+  "files": [
+    "bin",
+    "lib"
+  ]
 }

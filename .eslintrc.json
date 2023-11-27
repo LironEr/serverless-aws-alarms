@@ -10,7 +10,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "ignorePatterns": ["**/node_modules", "**/build", "**/dist", "coverage"],
+  "ignorePatterns": ["**/node_modules", "**/build", "**/lib", "coverage"],
   "overrides": [
     {
       "files": ["**/__tests__/**/*.test.ts"],

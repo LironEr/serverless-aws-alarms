@@ -5,7 +5,7 @@ configValidationMode: error
 
 plugins:
   - serverless-localstack
-  - ../../../dist/index.js
+  - ../../../lib/index.js
 
 package:
   patterns:
