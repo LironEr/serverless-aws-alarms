@@ -1,7 +1,7 @@
 import { ZodError } from 'zod';
 import { validateConfig } from '../config';
 import { PluginConfig } from '../../types';
-import { DEFAULT_NAME_TEMPLATE, DEFAULT_PREFIX_TEMPLATE } from '../../consts/naming';
+import { DEFAULT_NAME_TEMPLATE, DEFAULT_PREFIX_TEMPLATE, DEFAULT_SUFFIX_TEMPLATE } from '../../consts/naming';
 
 describe('config utils', () => {
   describe('validateConfig', () => {
@@ -15,6 +15,7 @@ describe('config utils', () => {
           enabled: true,
           prefixTemplate: DEFAULT_PREFIX_TEMPLATE,
           nameTemplate: DEFAULT_NAME_TEMPLATE,
+          suffixTemplate: DEFAULT_SUFFIX_TEMPLATE,
         },
       });
     });
@@ -25,6 +26,7 @@ describe('config utils', () => {
           enabled: true,
           prefixTemplate: DEFAULT_PREFIX_TEMPLATE,
           nameTemplate: DEFAULT_NAME_TEMPLATE,
+          suffixTemplate: DEFAULT_SUFFIX_TEMPLATE,
         },
       });
     });
@@ -32,14 +34,17 @@ describe('config utils', () => {
     test('override some defaults', () => {
       const input: PluginConfig = {
         defaults: {
-          prefixTemplate: '',
+          suffixTemplate: 'critical',
+          treatMissingData: 'notBreaching',
         },
       };
       expect(validateConfig(input)).toEqual({
         defaults: {
           enabled: true,
-          prefixTemplate: '',
+          prefixTemplate: DEFAULT_PREFIX_TEMPLATE,
           nameTemplate: DEFAULT_NAME_TEMPLATE,
+          suffixTemplate: 'critical',
+          treatMissingData: 'notBreaching',
         },
       });
     });

@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { AlarmMetricFilterDefinition, AlarmActions, AlarmDefinition, PluginConfig } from '../types';
-import { DEFAULT_NAME_TEMPLATE, DEFAULT_PREFIX_TEMPLATE, DEFAULT_METRIC_FILTER_NAME_TEMPLATE } from '../consts/naming';
+import {
+  DEFAULT_NAME_TEMPLATE,
+  DEFAULT_PREFIX_TEMPLATE,
+  DEFAULT_SUFFIX_TEMPLATE,
+  DEFAULT_METRIC_FILTER_NAME_TEMPLATE,
+} from '../consts/naming';
 
 const alarmMetricFilterDefSchema = z.object({
   pattern: z.string(),
@@ -13,6 +18,7 @@ const alarmDefSchema = z.object({
   enabled: z.boolean().default(true),
   prefixTemplate: z.optional(z.string()),
   nameTemplate: z.optional(z.string()),
+  suffixTemplate: z.optional(z.string()),
   description: z.optional(z.string().max(1024)),
   namespace: z.optional(z.string()),
   metric: z.optional(z.string()),
@@ -55,6 +61,7 @@ const alarmActionsSchema = z.object({
 const defaultsDefsSchema = alarmDefSchema.extend({
   prefixTemplate: z.optional(z.string()).default(DEFAULT_PREFIX_TEMPLATE),
   nameTemplate: z.optional(z.string()).default(DEFAULT_NAME_TEMPLATE),
+  suffixTemplate: z.optional(z.string()).default(DEFAULT_SUFFIX_TEMPLATE),
 }) satisfies z.ZodType<PluginConfig['defaults']>;
 
 const configSchema = z.object({

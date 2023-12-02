@@ -55,7 +55,7 @@ describe('integration tests', () => {
 
     // verify alarm props
 
-    assertAlarm(alarms, `${serviceName}-some-func-lambdaErrors`, {
+    assertAlarm(alarms, `${serviceName}-some-func-lambdaErrors-warning`, {
       Namespace: 'AWS/Lambda',
       MetricName: 'Errors',
       ComparisonOperator: 'GreaterThanOrEqualToThreshold',
@@ -72,7 +72,7 @@ describe('integration tests', () => {
       ],
     });
 
-    assertAlarm(alarms, `${serviceName}-some-func2-lambdaErrors`, {
+    assertAlarm(alarms, `${serviceName}-some-func2-lambdaErrors-warning`, {
       Namespace: 'AWS/Lambda',
       MetricName: 'Errors',
       ComparisonOperator: 'GreaterThanOrEqualToThreshold',

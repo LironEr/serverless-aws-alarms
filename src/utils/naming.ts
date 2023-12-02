@@ -2,18 +2,20 @@ import { DEFAULT_NAME_TEMPLATE, DEFAULT_METRIC_FILTER_NAME_TEMPLATE } from '../c
 
 type BasePlaceholders = 'stackName' | 'lambdaName' | 'lambdaId' | 'lambdaLogicalId' | 'metricName' | 'definitionName';
 
-interface GetAlarmNameOptions {
+export interface GetAlarmNameOptions {
   nameTemplate?: string;
   prefixTemplate?: string;
+  suffixTemplate?: string;
   placeholders: Record<BasePlaceholders, string>;
 }
 
-export function getAlarmName({ nameTemplate, prefixTemplate, placeholders }: GetAlarmNameOptions) {
+export function getAlarmName({ nameTemplate, prefixTemplate, suffixTemplate, placeholders }: GetAlarmNameOptions) {
   // nameTemplate shouldn't be undefined here, but anyway we have a default value just in case
   const alarmName = replacePlaceholders(nameTemplate || DEFAULT_NAME_TEMPLATE, placeholders);
   const prefix = prefixTemplate ? replacePlaceholders(prefixTemplate, placeholders) : undefined;
+  const suffix = suffixTemplate ? replacePlaceholders(suffixTemplate, placeholders) : undefined;
 
-  return prefix ? `${prefix}-${alarmName}` : alarmName;
+  return [prefix, alarmName, suffix].filter((x) => !!x).join('-');
 }
 
 interface GetMetricFilterNameOptions {

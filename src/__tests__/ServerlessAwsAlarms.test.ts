@@ -1,6 +1,6 @@
 import { MockLogging, MockServerless } from '@tests/utils/MockServerless';
 import { PluginConfig } from '../types';
-import { DEFAULT_NAME_TEMPLATE, DEFAULT_PREFIX_TEMPLATE } from '../consts/naming';
+import { DEFAULT_NAME_TEMPLATE, DEFAULT_PREFIX_TEMPLATE, DEFAULT_SUFFIX_TEMPLATE } from '../consts/naming';
 import { DEFAULT_ALARM_DEFINITIONS } from '../consts/definitions';
 import { ServerlessAwsAlarms } from '../ServerlessAwsAlarms';
 import { TEST_ACCOUNT_NUM } from '@tests/consts';
@@ -38,6 +38,7 @@ describe('ServerlessAwsAlarms', () => {
           enabled: true,
           prefixTemplate: DEFAULT_PREFIX_TEMPLATE,
           nameTemplate: DEFAULT_NAME_TEMPLATE,
+          suffixTemplate: DEFAULT_SUFFIX_TEMPLATE,
         },
         definitions: DEFAULT_ALARM_DEFINITIONS,
       });
@@ -56,6 +57,7 @@ describe('ServerlessAwsAlarms', () => {
           enabled: true,
           prefixTemplate: DEFAULT_PREFIX_TEMPLATE,
           nameTemplate: DEFAULT_NAME_TEMPLATE,
+          suffixTemplate: DEFAULT_SUFFIX_TEMPLATE,
         },
         definitions: DEFAULT_ALARM_DEFINITIONS,
       });
@@ -65,7 +67,7 @@ describe('ServerlessAwsAlarms', () => {
       const serverless = new MockServerless();
       serverless.service.custom.awsAlarms = {
         defaults: {
-          prefixTemplate: '',
+          suffixTemplate: 'warning',
         },
       } as PluginConfig;
 
@@ -76,8 +78,9 @@ describe('ServerlessAwsAlarms', () => {
       expect(plugin.config).toEqual({
         defaults: {
           enabled: true,
-          prefixTemplate: '',
+          prefixTemplate: DEFAULT_PREFIX_TEMPLATE,
           nameTemplate: DEFAULT_NAME_TEMPLATE,
+          suffixTemplate: 'warning',
         },
         definitions: DEFAULT_ALARM_DEFINITIONS,
       });

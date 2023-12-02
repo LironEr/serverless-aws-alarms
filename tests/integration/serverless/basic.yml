@@ -27,6 +27,10 @@ custom:
         ok: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-ok'
         alarm: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-alarm'
         insufficientData: 'arn:aws:sns:${self:provider.region}:${aws:accountId}:my-team-alerts-insufficientData'
+
+    defaults:
+      suffixTemplate: 'warning'
+
     definitions:
       lambdaErrors:
         enabled: true
@@ -55,6 +59,7 @@ functions:
     handler: handlers.someFunc
     alarms:
       criticalLambdaErrors:
+        suffixTemplate: ''
         namespace: 'AWS/Lambda'
         metric: 'Errors'
         comparisonOperator: 'GreaterThanOrEqualToThreshold'

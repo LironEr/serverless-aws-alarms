@@ -1,4 +1,10 @@
-import { replacePlaceholders, getNamespaceForMetricFilter, getMetricNameForMetricFilter } from '../naming';
+import {
+  replacePlaceholders,
+  getAlarmName,
+  getNamespaceForMetricFilter,
+  getMetricNameForMetricFilter,
+  GetAlarmNameOptions,
+} from '../naming';
 
 describe('naming utils', () => {
   describe('replacePlaceholders', () => {
@@ -26,6 +32,55 @@ describe('naming utils', () => {
           name: 'John',
         }),
       ).toEqual('Hello $[someName]');
+    });
+  });
+
+  describe('getAlarmName', () => {
+    const placeholders: GetAlarmNameOptions['placeholders'] = {
+      stackName: 'stackName',
+      lambdaName: 'lambdaName',
+      lambdaId: 'lambdaId',
+      lambdaLogicalId: 'lambdaLogicalId',
+      metricName: 'metricName',
+      definitionName: 'definitionName',
+    };
+
+    test('only with nameTemplate', () => {
+      expect(getAlarmName({ nameTemplate: '$[lambdaName]-$[definitionName]-alarm', placeholders })).toEqual(
+        'lambdaName-definitionName-alarm',
+      );
+    });
+
+    test('nameTemplate with prefix', () => {
+      expect(
+        getAlarmName({
+          nameTemplate: '$[definitionName]-alarm',
+          prefixTemplate: '$[lambdaName]',
+          suffixTemplate: '',
+          placeholders,
+        }),
+      ).toEqual('lambdaName-definitionName-alarm');
+    });
+
+    test('nameTemplate with suffix', () => {
+      expect(
+        getAlarmName({
+          nameTemplate: '$[lambdaName]-$[definitionName]',
+          suffixTemplate: '$[stackName]-warning',
+          placeholders,
+        }),
+      ).toEqual('lambdaName-definitionName-stackName-warning');
+    });
+
+    test('nameTemplate with prefix and suffix', () => {
+      expect(
+        getAlarmName({
+          nameTemplate: '$[lambdaName]-$[definitionName]',
+          prefixTemplate: '$[stackName]',
+          suffixTemplate: 'warning',
+          placeholders,
+        }),
+      ).toEqual('stackName-lambdaName-definitionName-warning');
     });
   });
 
