@@ -44,7 +44,6 @@ export interface PluginConfig {
   defaults?: Partial<AlarmDefinition>;
   actions?: Record<string, AlarmActions>;
   definitions?: Record<string, AlarmDefinition>;
-  customPlaceholders?: Record<string, string>;
 }
 
 export type ServerlessLambdaDefinition = (Serverless.FunctionDefinitionHandler | Serverless.FunctionDefinitionImage) & {

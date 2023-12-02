@@ -11,7 +11,10 @@
     "serverless",
     "serverless framework",
     "serverless plugin",
-    "aws"
+    "aws",
+    "aws lambda",
+    "aws cloudwatch",
+    "monitoring"
   ],
   "engines": {
     "node": ">=18"
