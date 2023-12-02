@@ -18,7 +18,7 @@ export function assertAlarm(alarms: MetricAlarm[], alarmName: string, expected: 
   const alarm = alarms.find((a) => a.AlarmName === alarmName);
 
   if (!alarm) {
-    throw new Error(`Alarm ${alarmName} not found`);
+    throw new Error(`Alarm ${alarmName} not found in ${JSON.stringify(alarms.map((a) => a.AlarmName))}`);
   }
 
   expect(alarm).toMatchObject(expected);

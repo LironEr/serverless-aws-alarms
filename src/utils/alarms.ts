@@ -53,6 +53,7 @@ export function generateCloudFormationResourcesForDefinition(
     AlarmName: getAlarmName({
       nameTemplate: alarm.nameTemplate,
       prefixTemplate: alarm.prefixTemplate,
+      suffixTemplate: alarm.suffixTemplate,
       placeholders: {
         definitionName: alarmDefinitionName,
         lambdaId,

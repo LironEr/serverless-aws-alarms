@@ -13,6 +13,7 @@ export interface AlarmDefinition {
   enabled?: boolean;
   prefixTemplate?: string;
   nameTemplate?: string;
+  suffixTemplate?: string;
   description?: string;
   namespace?: string;
   metric?: string;

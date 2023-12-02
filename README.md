@@ -30,9 +30,11 @@ custom:
       critical: # optional - create more actions
         ok: !Ref MyTeamCriticalAlertsTopic # you can also use !Ref and other CloudFormation functions
         alarm: !ImportValue 'my-team-alerts'
+
     defaults:
       nameTemplate: $[functionName]-$[metricName]-alarm # Optional - naming template for alarms, can be overwritten in definitions
       prefixTemplate: $[stackName] # Optional - override the alarm name prefix
+      suffixTemplate: alarm # Optional - override the alarm name suffix
 
     definitions: # these defaults are merged with your definitions
       lambdaErrors:
