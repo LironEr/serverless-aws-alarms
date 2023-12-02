@@ -1,6 +1,6 @@
 {
   "name": "serverless-aws-alarms",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "repository": "https://github.com/LironEr/serverless-aws-alarms.git",
   "author": "LironEr <lironerm@gmail.com>",
