@@ -111,6 +111,7 @@ Detailed description of the properties can be found in the [AWS documentation](h
 | alarmActions            | The list of actions to execute when this alarm transitions into an ALARM state from any other state    | `string[]`                                                 |                                   |
 | insufficientDataActions | The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state | `string[]`                                                 |                                   |
 | treatMissingData        | Sets how this alarm is to handle missing data points                                                   | `string`                                                   |                                   |
+| tags                    | Sets alarm tags                                                                                        | `Record<string, string>`                                   |                                   |
 | metricFilter            | Create an alarm based on a pattern found in a log group                                                | [`AlarmMetricFilterDefinition`](#metric-filter-definition) |                                   |
 
 ### Metric filter definition
