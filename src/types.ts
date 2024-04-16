@@ -29,6 +29,7 @@ export interface AlarmDefinition {
   insufficientDataActions?: string[];
   treatMissingData?: string;
   metricFilter?: AlarmMetricFilterDefinition;
+  tags?: Record<string, string | null>;
 }
 
 // Can be string (arn) or object (!Ref/!Sub...) or an array of those

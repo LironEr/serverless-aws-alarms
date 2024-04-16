@@ -35,6 +35,8 @@ custom:
       nameTemplate: $[functionName]-$[metricName]-alarm # Optional - naming template for alarms, can be overwritten in definitions
       prefixTemplate: $[stackName] # Optional - override the alarm name prefix
       suffixTemplate: alarm # Optional - override the alarm name suffix
+      tags:
+        TEAM: my-team
 
     definitions: # these defaults are merged with your definitions
       lambdaErrors:
