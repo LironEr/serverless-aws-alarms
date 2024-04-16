@@ -1,0 +1,9 @@
+comment: false
+
+coverage:
+  status:
+    patch: off
+    project:
+      default:
+        only_pulls: true
+        target: auto

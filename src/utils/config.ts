@@ -44,6 +44,7 @@ const alarmDefSchema = z.object({
   insufficientDataActions: z.array(z.string()).optional(),
   treatMissingData: z.optional(z.enum(['missing', 'ignore', 'breaching', 'notBreaching'])),
   metricFilter: z.optional(alarmMetricFilterDefSchema),
+  tags: z.optional(z.record(z.string().min(1).max(128), z.string().min(1).max(256).nullable())),
 }) satisfies z.ZodType<AlarmDefinition>;
 
 const alarmActionSchema = z.union([

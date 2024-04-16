@@ -94,6 +94,15 @@ export function generateCloudFormationResourcesForDefinition(
     TreatMissingData: alarm.treatMissingData,
   };
 
+  if (alarm.tags && Object.keys(alarm.tags).length > 0) {
+    cfAlarmProperties.Tags = Object.entries(alarm.tags)
+      .map(([key, value]) => ({
+        Key: key,
+        Value: value,
+      }))
+      .filter((tag) => !!tag.Value);
+  }
+
   resources[
     awsNaming.getNormalizedResourceName(`${lambdaLogicalId}${awsNaming.normalizeName(alarmDefinitionName)}Alarm`)
   ] = {
